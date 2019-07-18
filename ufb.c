@@ -582,22 +582,22 @@ int handle_cmd(const char *cmd)
 
 int init_usb_fs()
 {
-        ssize_t ret;
+    ssize_t ret;
 
 	printf("Start init usb\n");
 
-        ret = write(g_ep_0, &g_descriptors, sizeof(g_descriptors));
-        if ( ret < 0) {
-                printf("write descriptor failure\n");
-                exit(1);
-        }
+	ret = write(g_ep_0, &g_descriptors, sizeof(g_descriptors));
+	if ( ret < 0) {
+		printf("write descriptor failure\n");
+		exit(1);
+	}
 
 	printf("write string\n");
-        ret = write(g_ep_0, &g_strings, sizeof(g_strings));
-        if (ret < 0) {
-                printf("write string failure\n");
-                exit(1);
-        }
+	ret = write(g_ep_0, &g_strings, sizeof(g_strings));
+	if (ret < 0) {
+		printf("write string failure\n");
+		exit(1);
+	}
 }
 
 
@@ -610,9 +610,8 @@ int main(int argc, char **argv)
 
 	char file[] = "/dev/usb-ffs/ep0";
 	char *usb_file = file;
-
-        if (argc > 1)
-                usb_file = argv[1];
+    if (argc > 1)
+            usb_file = argv[1];
 
 	g_ep_0 = open(usb_file, O_RDWR);
 	if(g_ep_0 < 0) {
@@ -622,15 +621,15 @@ int main(int argc, char **argv)
 	init_usb_fs();
 
 	usb_file[strlen(usb_file)-1] = '1';
-        g_ep_sink = open(usb_file, O_RDWR);
-        if(g_ep_sink < 0) {
+    g_ep_sink = open(usb_file, O_RDWR);
+    if(g_ep_sink < 0) {
 		printf("can't open file %s\n", usb_file);
-                exit(1);
-        }
+		exit(1);
+	}
 
 	usb_file[strlen(usb_file)-1] = '2';
 	g_ep_source = open(usb_file, O_RDWR);
-        if(g_ep_source < 0) {
+    if(g_ep_source < 0) {
 		printf("can't open file %s\n", usb_file);
 		exit(1);
 	}
