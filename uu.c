@@ -465,7 +465,7 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 		size = (strlen(data) + 1 ) * sizeof(data[0]);
 	}
 
-	else if (cmd[0] == '!') {
+	else if (cmd[0] == '^') {
 		/* reboot the system, and the ACK has already sent out */
 		if (cmd[1] == '3') {
 			sync();
