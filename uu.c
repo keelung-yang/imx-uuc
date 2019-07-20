@@ -464,7 +464,6 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 			"</DEVICE>\n", utp_firmware_version, VERSION, utp_sn, utp_chipid, 0x66F, 0x37FF);
 		size = (strlen(data) + 1 ) * sizeof(data[0]);
 	}
-
 	else if (cmd[0] == '^') {
 		/* reboot the system, and the ACK has already sent out */
 		if (cmd[1] == '3') {
@@ -477,7 +476,6 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 			return NULL;
 		}
 	}
-
 	else if (strncmp(cmd, "$ ", 2) == 0) {
 		status = utp_run(cmd + 2);
 		if (status)
@@ -487,7 +485,6 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 		/* Write firmware - to flash or to SD, no matter */
 		utp_file = open(UTP_TARGET_FILE, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 	}
-
 	else if (strcmp(cmd, "fff") == 0) {
 		/* perform actual flashing of the firmware to the NAND */
 		utp_flush();
@@ -516,7 +513,6 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else if (strncmp(cmd, "mknod", 5) == 0) {
 		int devtype = S_IFCHR;
 		char *class, *item, *type, *node;
@@ -541,7 +537,6 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else if (strncmp(cmd, "wrf", 3) == 0) {
 		/* Write rootfs to flash */
 		printf("UTP: writing rootfs to flash, mtd #%c, size %lld\n",
@@ -556,20 +551,17 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else if (strncmp(cmd, "pipe", 4) == 0) {
 		status = utp_pipe(cmd + 5);
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else if (strncmp(cmd, "pollpipe", 8) == 0) {
 		printf("UTP: poll pipe.\n");
 		status = utp_poll_pipe();
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else if (strncmp(cmd, "wrs", 3) == 0) {
 		/* Write rootfs to the SD */
 		printf("UTP: writing rootfs to SD card, mmc partition #%c, size %lld\n",
@@ -587,21 +579,17 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
-
 	else if (strcmp(cmd, "frf") == 0 || strcmp(cmd, "frs") == 0) {
 		/* perform actual flashing of the rootfs to the NAND/SD */
 		status = utp_flush();
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else if (strncmp(cmd, "untar.", 6) == 0) {
 		status = utp_pipe("tar %cxv -C %s", cmd[6], cmd + 8);
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else if (strncmp(cmd, "read", 4) == 0) {
 		f = open(cmd + 5, O_RDONLY);
 		if (f < 0) {
@@ -621,23 +609,18 @@ static struct utp_message *utp_handle_command(int u, char *cmd, unsigned long lo
 			}
 		}
 	}
-
 	else if (strcmp(cmd, "send") == 0) {
 		utp_file = open(UTP_TARGET_FILE, O_TRUNC | O_CREAT | O_WRONLY, 0666);
 	}
-
 	else if (strncmp(cmd, "save", 4) == 0) {
 		close(utp_file);
 		rename(UTP_TARGET_FILE, cmd + 5);
 	}
-
-
 	else if (strcmp(cmd, "selftest") == 0) {
 		status = utp_do_selftest();
 		if (status)
 			flags = UTP_FLAG_STATUS;
 	}
-
 	else {
 		printf("UTP: Unknown command received, ignored\n");
 		flags = UTP_FLAG_STATUS;
@@ -690,7 +673,7 @@ int main(int argc, char **argv)
 
 	printf("%s %s [built %s %s]\n", PACKAGE, VERSION, __DATE__, __TIME__);
 	/* set stdout unbuffered, what is the usage??? */
-//	setvbuf(stdout, NULL, _IONBF, 0);
+	// setvbuf(stdout, NULL, _IONBF, 0);
 	uc = malloc(sizeof(*uc) + 0x10000);
 
 	mkdir("/tmp", 0777);
@@ -703,6 +686,7 @@ int main(int argc, char **argv)
 		putchar('.');
 		sleep(1);
 	}
+	
 	u = open(utp_devnode, O_RDWR);
 	r = ioctl(u, UTP_GET_CPU_ID, &cpu_id);
 	if (r)
