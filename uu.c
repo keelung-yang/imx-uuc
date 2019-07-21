@@ -732,9 +732,9 @@ int main(int argc, char **argv)
 		r = read(u, uc, sizeof(*uc) + 0x10000);
 		if (uc->flags & UTP_FLAG_COMMAND) {
 			if (strlen(uc->command) > 0) {
-				msleep(1);
+				usleep(1000);
 				answer = utp_handle_command(u, uc->command, uc->payload);
-				msleep(1);
+				usleep(1000);
 				if (answer) {
 					printf("UTP: sending %s to kernel for command %s.\n", utp_answer_type(answer), uc->command);
 					write(u, answer, answer->size);
