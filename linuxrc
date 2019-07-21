@@ -28,10 +28,10 @@ function launch_uuc() {
 	echo 5 > configs/c.1/MaxPower
 
 	mkdir functions/mass_storage.1
-	echo /fat > functions/mass_storage.1/lun.0/file
 	echo 0 > functions/mass_storage.1/stall
+	echo "" > functions/mass_storage.1/iSerialNumber
+	echo /fat > functions/mass_storage.1/lun.0/file
 	echo 1 > functions/mass_storage.1/lun.0/removable
-	echo 0 > functions/mass_storage.1/lun.0/cdrom
 	ln -s functions/mass_storage.1 configs/c.1/
 
 	echo $1 > UDC
