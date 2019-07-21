@@ -731,7 +731,9 @@ int main(int argc, char **argv)
 		r = read(u, uc, sizeof(*uc) + 0x10000);
 		if (uc->flags & UTP_FLAG_COMMAND) {
 			if (strlen(uc->command) > 0) {
+				mdelay(1);
 				answer = utp_handle_command(u, uc->command, uc->payload);
+				mdelay(1);
 				if (answer) {
 					printf("UTP: sending %s to kernel for command %s.\n", utp_answer_type(answer), uc->command);
 					write(u, answer, answer->size);
@@ -740,7 +742,7 @@ int main(int argc, char **argv)
 			}
 			else {
 				printf("UTP: None command received.\n\t"
-					   "flags %x, size %ull, payload %ull\n",
+					   "flags %x, size %llu, payload %llu\n",
 					   uc->flags, uc->size, uc->payload);
 			}
 		
