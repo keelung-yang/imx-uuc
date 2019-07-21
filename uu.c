@@ -740,7 +740,7 @@ int main(int argc, char **argv)
 			}
 			else {
 				printf("UTP: None command received.\n\t"
-					   "flags %x, size %ull, payload %ull",
+					   "flags %x, size %ull, payload %ull\n",
 					   uc->flags, uc->size, uc->payload);
 			}
 		
