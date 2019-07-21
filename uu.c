@@ -730,12 +730,20 @@ int main(int argc, char **argv)
 	for(;;) {
 		r = read(u, uc, sizeof(*uc) + 0x10000);
 		if (uc->flags & UTP_FLAG_COMMAND) {
-			answer = utp_handle_command(u, uc->command, uc->payload);
-			if (answer) {
-				printf("UTP: sending %s to kernel for command %s.\n", utp_answer_type(answer), uc->command);
-				write(u, answer, answer->size);
-				free(answer);
+			if (strlen(uc->command) > 0) {
+				answer = utp_handle_command(u, uc->command, uc->payload);
+				if (answer) {
+					printf("UTP: sending %s to kernel for command %s.\n", utp_answer_type(answer), uc->command);
+					write(u, answer, answer->size);
+					free(answer);
+				}
 			}
+			else {
+				printf("UTP: None command received.\n\t"
+					   "flags %x, size %ull, payload %ull",
+					   uc->flags, uc->size, uc->payload);
+			}
+		
 		}else if (uc->flags & UTP_FLAG_DATA) {
 			write(utp_file, uc->data, uc->bufsize);
 		}else {
