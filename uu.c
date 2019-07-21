@@ -44,7 +44,7 @@
  * so, the user must service watchdog
  */
 #include <linux/watchdog.h>
-#include <linux/delay.h>
+#include <unistd.h>
 
 #define UTP_TARGET_FILE	"/tmp/file.utp"
 
@@ -732,9 +732,9 @@ int main(int argc, char **argv)
 		r = read(u, uc, sizeof(*uc) + 0x10000);
 		if (uc->flags & UTP_FLAG_COMMAND) {
 			if (strlen(uc->command) > 0) {
-				mdelay(1);
+				msleep(1);
 				answer = utp_handle_command(u, uc->command, uc->payload);
-				mdelay(1);
+				msleep(1);
 				if (answer) {
 					printf("UTP: sending %s to kernel for command %s.\n", utp_answer_type(answer), uc->command);
 					write(u, answer, answer->size);
