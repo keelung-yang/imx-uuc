@@ -44,6 +44,7 @@
  * so, the user must service watchdog
  */
 #include <linux/watchdog.h>
+#include <linux/delay.h>
 
 #define UTP_TARGET_FILE	"/tmp/file.utp"
 
