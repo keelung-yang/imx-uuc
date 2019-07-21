@@ -29,7 +29,7 @@ function launch_uuc() {
 
 	mkdir functions/mass_storage.1
 	echo 0 > functions/mass_storage.1/stall
-	echo "" > functions/mass_storage.1/iSerialNumber
+	# echo "" > functions/mass_storage.1/iSerialNumber
 	echo /fat > functions/mass_storage.1/lun.0/file
 	echo 1 > functions/mass_storage.1/lun.0/removable
 	ln -s functions/mass_storage.1 configs/c.1/
